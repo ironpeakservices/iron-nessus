@@ -15,11 +15,9 @@ RUN adduser --shell /bin/true --uid 1000 --home /opt/nessus  --gecos '' app \
     && setcap "cap_sys_resource+eip" /opt/nessus/sbin/nessus-service \
     && setcap "cap_net_admin,cap_net_raw,cap_sys_resource+eip" /opt/nessus/sbin/nessusd \
     && setcap "cap_net_admin,cap_net_raw,cap_sys_resource+eip" /opt/nessus/sbin/nessus-service \
+    && /opt/nessus/sbin/nessuscli fetch --register "${NESSUS_SERIAL}" \
     && chown -R app /opt/nessus \
     && chmod u=rx,g=o= /opt/nessus/sbin/*
-
-RUN /opt/nessus/sbin/nessuscli fetch --register "${NESSUS_SERIAL}" \
-    && /opt/nessus/sbin/nessuscli update --all
 
 WORKDIR /opt/nessus
 EXPOSE 8834
