@@ -1,5 +1,6 @@
 FROM debian:bullseye-slim
 
+ENV NESSUS_SERIAL=""
 ENV NESSUS_URL="https://www.tenable.com/downloads/api/v1/public/pages/nessus/downloads/10852/download?i_agree_to_tenable_license_agreement=true"
 
 RUN adduser --shell /bin/true --uid 1000 --home /opt/nessus  --gecos '' app \
@@ -17,6 +18,10 @@ RUN adduser --shell /bin/true --uid 1000 --home /opt/nessus  --gecos '' app \
     && chown -R app /opt/nessus \
     && chmod u=rx,g=o= /opt/nessus/sbin/*
 
+RUN /opt/nessus/sbin/nessuscli fetch --register "${NESSUS_SERIAL}" \
+    && /opt/nessus/sbin/nessuscli update --all
+
+WORKDIR /opt/nessus
 EXPOSE 8834
 USER app
 VOLUME [ "/opt/nessus/var" ]
