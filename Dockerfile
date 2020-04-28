@@ -17,7 +17,7 @@ RUN adduser --shell /bin/true --uid 1000 --home /opt/nessus  --gecos '' app \
     && setcap "cap_net_admin,cap_net_raw,cap_sys_resource+eip" /opt/nessus/sbin/nessus-service \
     && /opt/nessus/sbin/nessuscli fetch --register "${NESSUS_SERIAL}" \
     && chown -R app /opt/nessus \
-    && chmod u=rx,g=o= /opt/nessus/sbin/*
+    && chmod u=rx,g=,o= /opt/nessus/sbin/*
 
 WORKDIR /opt/nessus
 EXPOSE 8834
