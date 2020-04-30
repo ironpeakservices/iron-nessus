@@ -1,6 +1,7 @@
 FROM debian:bullseye-slim
 
-ENV NESSUS_SERIAL="<YOUR-SERIAL-KEY-HERE>"
+ARG NESSUS_SERIAL
+
 ENV NESSUS_URL="https://www.tenable.com/downloads/api/v1/public/pages/nessus/downloads/10852/download?i_agree_to_tenable_license_agreement=true"
 
 RUN adduser --shell /bin/true --uid 1000 --home /opt/nessus  --gecos '' app \
