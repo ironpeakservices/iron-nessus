@@ -1,0 +1,16 @@
+name: lint
+
+on: pull_request
+
+jobs:
+
+  dockerlint:
+    name: Lint - Docker
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: hadolint
+      uses: reviewdog/action-hadolint@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        HADOLINT_ACTION_DOCKERFILE_FOLDER: docker/
