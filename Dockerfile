@@ -1,14 +1,15 @@
-FROM debian:bullseye-slim
+FROM debian:10.4-slim
 
 ARG NESSUS_SERIAL
 
-ENV NESSUS_URL="https://www.tenable.com/downloads/api/v1/public/pages/nessus/downloads/10852/download?i_agree_to_tenable_license_agreement=true"
+ENV DEBIAN_FRONTEND=noninteractive \
+    NESSUS_URL="https://www.tenable.com/downloads/api/v1/public/pages/nessus/downloads/11039/download?i_agree_to_tenable_license_agreement=true"
 
-RUN adduser --shell /bin/true --uid 1000 --home /opt/nessus  --gecos '' app \
+RUN adduser --shell /bin/true --uid 1000 --home /opt/nessus  --gecos '' --disabled-password app \
     && apt-get update \
     && apt-get upgrade -y \
-    && apt-get install -y wget ca-certificates libcap2-bin tzdata \
-    && wget -qO /tmp/nessus.deb "${NESSUS_URL}" \
+    && apt-get install -y --no-install-recommends wget ca-certificates libcap2-bin tzdata \
+    && wget -O /tmp/nessus.deb "${NESSUS_URL}" \
     && apt-get remove -y wget && apt-get clean \
     && dpkg -i /tmp/nessus.deb  \
     && rm /tmp/nessus.deb \
